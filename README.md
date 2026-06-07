@@ -29,15 +29,6 @@ Future menu slots still planned:
 - Historical decade cards use era/team averages, not just peak seasons.
 - Current rosters can be updated using the files inside `tools/`.
 
-## How to run
-
-1. Unzip the folder.
-2. Open `index.html` in your browser.
-3. Use the home menu to choose a game mode.
-
-No install is needed for local testing. For phone/PWA use, upload the folder to GitHub Pages, Netlify, Vercel, or Cloudflare Pages.
-
----
 
 # Undefeated GM - Full Database Spin Draft v12
 
