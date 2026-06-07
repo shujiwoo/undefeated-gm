@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Undefeated GM</title>
+  <meta name="theme-color" content="#070b16" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div class="brand-row">
+        <a class="logo-home" href="./index.html" id="homeLink" aria-label="Undefeated GM home">
+          <img class="logo-img" src="icons/site-logo.png" alt="Undefeated GM logo" />
+        </a>
+        <strong id="roundLabel">Round 1/5</strong>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="homeBtn" title="Home">⌂</button>
+        <button class="icon-btn" id="themeBtn" title="Toggle theme">☼</button>
+        <button class="icon-btn records-top-btn" id="recordsBtn" title="Records">▤</button>
+        <button class="icon-btn" id="helpBtn" title="How to Play">?</button>
+        <button class="icon-btn" id="menuBtn" title="Settings">☰</button>
+        <button class="icon-btn" id="restartBtn" title="Restart">↪</button>
+      </div>
+    </header>
+
+
+    <section class="home-screen" id="homeView">
+      <div class="home-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Basketball Draft Simulator</p>
+          <h1>Build the squad. Chase 82-0.</h1>
+          <p class="hero-sub">Draft legends, test franchises, battle CPU teams, and chase the perfect season.</p>
+          <div class="hero-actions">
+            <button class="spin-btn home-primary" data-start-mode="classic">Play Classic Draft</button>
+            <button class="ghost-btn" data-start-mode="franchise">All-Time Franchise</button>
+            <button class="ghost-btn" id="recordsHeroBtn">View Records</button>
+            <button class="ghost-btn" id="helpHeroBtn">How to Play</button>
+          </div>
+        </div>
+        <div class="hero-board">
+          <div class="board-glow"></div>
+          <span>82</span>
+          <strong>-0</strong>
+          <small>Undefeated run</small>
+        </div>
+      </div>
+
+      <div class="home-grid">
+        <section class="menu-section main-modes">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Main Games</p>
+              <h2>Choose a mode</h2>
+            </div>
+            <span class="mode-count">6 playable now</span>
+          </div>
+          <div class="mode-grid">
+            <button class="mode-card featured" data-start-mode="classic">
+              <span class="mode-tag">Playable</span>
+              <strong>Classic Draft</strong>
+              <small>Spin a random franchise + era, then pick anyone who played there.</small>
+            </button>
+            <button class="mode-card" data-start-mode="franchise">
+              <span class="mode-tag">Playable</span>
+              <strong>All-Time Franchise</strong>
+              <small>Pick one franchise and build its best all-time roster.</small>
+            </button>
+            <button class="mode-card" data-start-mode="battle">
+              <span class="mode-tag">Playable</span>
+              <strong>Battle Mode</strong>
+              <small>Draft your team, then face a CPU superteam in a 7-game series.</small>
+            </button>
+            <button class="mode-card" data-start-mode="playoff">
+              <span class="mode-tag">Playable</span>
+              <strong>Playoff Mode</strong>
+              <small>Draft a roster and try to survive four playoff rounds.</small>
+            </button>
+            <button class="mode-card" data-start-mode="dynasty">
+              <span class="mode-tag">Playable</span>
+              <strong>Dynasty Mode</strong>
+              <small>Draft a team and simulate a five-year title window.</small>
+            </button>
+            <button class="mode-card" data-start-mode="trade">
+              <span class="mode-tag">Playable</span>
+              <strong>GM Trade Mode</strong>
+              <small>Draft a roster, accept trade offers, then simulate the team.</small>
+            </button>
+          </div>
+        </section>
+
+        <aside class="franchise-start-card" id="franchiseCard">
+          <p class="eyebrow">Quick Start</p>
+          <h2>All-Time Franchise</h2>
+          <p>Choose a franchise, then every roll stays locked to that franchise while the era changes.</p>
+          <label>
+            Franchise
+            <select id="franchiseSelect"></select>
+          </label>
+          <button class="spin-btn" id="startFranchiseBtn">START FRANCHISE</button>
+        </aside>
+      </div>
+
+      <section class="menu-section mini-games">
+        <div class="section-title-row">
+          <div>
+            <p class="eyebrow">Mini-Games</p>
+            <h2>Quick basketball mini-games</h2>
+          </div>
+          <span class="mode-count">6 playable now</span>
+        </div>
+        <div class="mini-grid">
+          <button class="mini-card" data-start-mini="guess-stats"><strong>Guess the Player by Stats</strong><small>Stats + team + era clues.</small></button>
+          <button class="mini-card" data-start-mini="higher-lower"><strong>Higher or Lower</strong><small>Compare PPG, RPG, rating, awards.</small></button>
+          <button class="mini-card" data-start-mini="guess-team"><strong>Guess the Team</strong><small>Guess from a roster/core.</small></button>
+          <button class="mini-card" data-start-mini="guess-era"><strong>Guess the Era</strong><small>Guess the decade from player clues.</small></button>
+          <button class="mini-card" data-start-mini="career-path"><strong>Career Path Guess</strong><small>Teams in order, guess the player.</small></button>
+          <button class="mini-card" data-start-mini="comparison"><strong>Player Comparison</strong><small>Compare two era cards side-by-side.</small></button>
+        </div>
+      </section>
+    </section>
+
+    <section class="spin-screen hidden" id="spinView">
+      <div class="spin-side">
+        <div class="tiles-row">
+          <article class="spin-tile team-tile" id="teamTile">
+            <small>TEAM</small>
+            <span id="teamValue">---</span>
+          </article>
+          <article class="spin-tile era-tile" id="eraTile">
+            <small>ERA</small>
+            <span id="eraValue">---</span>
+          </article>
+        </div>
+        <div class="tile-labels">
+          <span>Team</span>
+          <span>Decade</span>
+        </div>
+
+        <button class="spin-btn" id="spinBtn">SPIN</button>
+        <p class="prompt-text" id="promptText">Spin a random team and era from the 60s to the 20s. Then pick any player who played for that team in that era.</p>
+      </div>
+
+      <div class="court-wrap">
+        <div class="court">
+          <div class="court-lines paint"></div>
+          <div class="court-lines rim"></div>
+          <button class="court-slot slot-c" data-slot="C">C</button>
+          <button class="court-slot slot-pf" data-slot="PF">PF</button>
+          <button class="court-slot slot-sf" data-slot="SF">SF</button>
+          <button class="court-slot slot-sg" data-slot="SG">SG</button>
+          <button class="court-slot slot-pg" data-slot="PG">PG</button>
+        </div>
+        <div class="bench-zone hidden" data-bench-zone></div>
+        <div class="move-panel hidden" data-move-panel></div>
+        <p class="court-hint">Click a filled spot to move or swap that player into another eligible position.</p>
+      </div>
+    </section>
+
+    <section class="pick-screen hidden" id="pickView">
+      <div class="rolled-strip">
+        <div class="rolled-pills">
+          <span class="rolled-pill team-pill" id="rolledTeam">---</span>
+          <span class="rolled-pill era-pill" id="rolledEra">---</span>
+          <span class="respin-left" id="respinLeft">Game respins: Team 1 • Era 1</span>
+        </div>
+        <div class="respin-actions">
+          <button type="button" class="respin-btn team-respin" id="respinTeamBtn" title="Use your one game-wide team respin" onclick="window.handleRespinButton && window.handleRespinButton('team')">↻ <span>Team</span></button>
+          <button type="button" class="respin-btn era-respin" id="respinEraBtn" title="Use your one game-wide era respin" onclick="window.handleRespinButton && window.handleRespinButton('era')">↻ <span>Era</span></button>
+        </div>
+      </div>
+
+      <div class="pick-layout">
+        <aside class="players-column">
+          <div class="filters-row">
+            <div class="tab-row" id="positionTabs">
+              <button class="tab active" data-filter="All">All</button>
+              <button class="tab" data-filter="G">G</button>
+              <button class="tab" data-filter="F">F</button>
+              <button class="tab" data-filter="C">C</button>
+            </div>
+            <input id="searchInput" type="search" placeholder="Search..." />
+            <select id="sortSelect" title="Sort players">
+              <option value="ppg">PPG</option>
+              <option value="rating">Rating</option>
+              <option value="rpg">RPG</option>
+              <option value="apg">APG</option>
+              <option value="defense">Defense</option>
+              <option value="shooting">Shooting</option>
+            </select>
+          </div>
+          <p class="available-text" id="availableText">0 players available</p>
+          <div class="player-list" id="playerList"></div>
+        </aside>
+
+        <div class="court-wrap pick-court-wrap">
+          <div class="court">
+            <div class="court-lines paint"></div>
+            <div class="court-lines rim"></div>
+            <button class="court-slot slot-c" data-slot="C">C</button>
+            <button class="court-slot slot-pf" data-slot="PF">PF</button>
+            <button class="court-slot slot-sf" data-slot="SF">SF</button>
+            <button class="court-slot slot-sg" data-slot="SG">SG</button>
+            <button class="court-slot slot-pg" data-slot="PG">PG</button>
+          </div>
+          <div class="bench-zone hidden" data-bench-zone></div>
+          <div class="move-panel hidden" data-move-panel></div>
+          <p class="court-hint">Click a filled spot to move or swap that player into another eligible position.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trade-screen hidden" id="tradeView">
+      <div class="trade-head">
+        <button class="ghost-btn" id="tradeBackBtn">← MENU</button>
+        <div>
+          <p class="eyebrow">GM Trade Mode</p>
+          <h1>Trade Center</h1>
+          <p id="tradeSummary">Review offers and fix your roster before the final simulation.</p>
+        </div>
+        <button class="spin-btn" id="finishTradesBtn">SIMULATE TEAM</button>
+      </div>
+      <div class="trade-layout">
+        <section>
+          <h2>Trade Offers</h2>
+          <div class="trade-offers" id="tradeOffers"></div>
+        </section>
+        <aside class="trade-roster-card">
+          <h2>Your Roster</h2>
+          <div id="tradeRoster"></div>
+          <div class="trade-history" id="tradeHistory"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="mini-game-screen hidden" id="miniGameView">
+      <div class="mini-game-head">
+        <button class="ghost-btn mini-back" id="miniBackBtn">← MENU</button>
+        <div class="mini-title-block">
+          <p class="eyebrow" id="miniGameTag">Mini-Game</p>
+          <h1 id="miniGameTitle">Mini-Game</h1>
+          <p id="miniGamePrompt">Answer the question.</p>
+        </div>
+        <div class="mini-score-pill" id="miniScoreText">0 / 0</div>
+      </div>
+      <div class="mini-game-body" id="miniGameBody"></div>
+      <div class="mini-game-actions">
+        <button class="spin-btn hidden" id="miniNextBtn">NEXT</button>
+        <button class="ghost-btn" id="miniRestartBtn">RESTART</button>
+      </div>
+    </section>
+
+
+    <section class="result-panel hidden" id="resultView">
+      <div class="end-screen">
+        <div class="end-top-actions">
+          <button class="icon-btn" id="resultHelpBtn" title="How to Play">?</button>
+        </div>
+        <img class="end-logo" src="icons/site-logo.png" alt="Undefeated GM logo" />
+        <h1 class="end-title">Can you go 82-0?</h1>
+        <div class="result-mode-badge" id="resultModeBadge">CLASSIC MODE</div>
+        <p class="result-label" id="resultMetricLabel">PROJECTED RECORD</p>
+        <div class="end-record" id="recordText">--</div>
+        <p class="end-grade"><span id="resultGrade">--</span><strong id="resultGradeLabel">GRADE</strong><small id="scoreText">--</small></p>
+        <p class="end-summary" id="recordSummary">Your simulated record will appear here.</p>
+        <div class="result-buttons end-buttons">
+          <button class="spin-btn" id="copyBtn">Share</button>
+          <button class="ghost-btn" id="playAgainBtn">Build Another</button>
+        </div>
+        <div class="result-breakdown" id="resultBreakdown">
+          <article class="result-card compact-result-card">
+            <small>STRENGTHS</small>
+            <ul id="strengthList"></ul>
+          </article>
+          <article class="result-card compact-result-card">
+            <small>WEAKNESSES</small>
+            <ul id="weaknessList"></ul>
+          </article>
+        </div>
+        <div class="final-lineup end-lineup" id="finalLineup"></div>
+        <div class="end-totals" id="lineupTotals"></div>
+        <footer class="result-footer">
+          <span>Enjoying the game?</span>
+          <button class="text-link" id="resultHelpLink">How to Play</button>
+          <span class="dot-sep">•</span>
+          <button class="text-link" id="resultRecordsLink">View Records</button>
+          <p>Undefeated GM is an independent fan-made basketball draft simulator. Not affiliated with the National Basketball Association.</p>
+        </footer>
+      </div>
+    </section>
+
+
+
+    <aside class="records-drawer" id="recordsDrawer" aria-hidden="true">
+      <div class="records-card">
+        <div class="records-head">
+          <div>
+            <p class="eyebrow">History</p>
+            <h2>Game Records</h2>
+          </div>
+          <button class="icon-btn" id="closeRecordsBtn">×</button>
+        </div>
+        <div class="records-tabs">
+          <button class="record-tab active" data-record-filter="all">All</button>
+          <button class="record-tab" data-record-filter="main">Main Games</button>
+          <button class="record-tab" data-record-filter="mini">Mini-Games</button>
+        </div>
+        <div class="records-list" id="recordsList"></div>
+        <div class="records-actions">
+          <button class="ghost-btn" id="clearRecordsBtn">Clear Records</button>
+        </div>
+      </div>
+    </aside>
+
+    <aside class="help-drawer" id="helpDrawer" aria-hidden="true">
+      <div class="help-card">
+        <div class="help-head">
+          <div>
+            <p class="eyebrow">Help</p>
+            <h2>How to Play</h2>
+          </div>
+          <button class="icon-btn" id="closeHelpBtn">×</button>
+        </div>
+        <div class="help-body">
+          <section>
+            <h3>Classic Draft</h3>
+            <p>Spin a random franchise and era. Pick any player who played for that franchise in that era, then place them into an eligible position.</p>
+          </section>
+          <section>
+            <h3>Positions</h3>
+            <p>Players can be placed at any position listed for them. Drag placed players to move or swap if both players are eligible.</p>
+          </section>
+          <section>
+            <h3>Respins</h3>
+            <p>You get one team respin and one era respin for the whole run. Use them carefully.</p>
+          </section>
+          <section>
+            <h3>How Team Success Is Calculated</h3>
+            <p>The game does not only look at per-game stats. PPG, RPG, APG, SPG, and BPG matter, but the simulator also checks skill ratings, era-average production, awards/accolades, role, position fit, spacing, defense, playmaking, rebounding, roster depth, and chemistry.</p>
+            <ul class="help-list">
+              <li><strong>Era-average stats:</strong> decade modes use the player's average production for that team in that era, not just their single best season.</li>
+              <li><strong>Skill ratings:</strong> scoring, shooting, playmaking, defense, rebounding, athleticism, clutch, and durability help decide how strong a player really is.</li>
+              <li><strong>Accolades:</strong> MVPs, All-NBA, All-Defense, championships, award shares, and star-level seasons add value.</li>
+              <li><strong>Fit:</strong> a balanced team with shooting, defense, passing, size, and rebounding can outperform a team of players with better box-score stats but poor chemistry.</li>
+              <li><strong>Randomness:</strong> if simulation randomness is on, the final record can swing slightly so the same team does not always finish with the exact same result.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Scores and Records</h3>
+            <p>After each run, your record, grade, roster, and mode result can be saved locally in Records. Records are stored on your device/browser.</p>
+          </section>
+          <section>
+            <h3>Other Modes</h3>
+            <p>Franchise Mode locks your team. Battle Mode plays a best-of-seven. Playoff Mode simulates four rounds. Dynasty Mode runs five years. GM Trade Mode lets you accept offers before simulating.</p>
+          </section>
+        </div>
+      </div>
+    </aside>
+
+    <aside class="mode-info-drawer" id="modeInfoDrawer" aria-hidden="true">
+      <div class="mode-info-card">
+        <button class="icon-btn mode-info-close" id="closeModeInfoBtn">×</button>
+        <p class="eyebrow" id="modeInfoTag">Mode</p>
+        <h2 id="modeInfoTitle">Coming Soon</h2>
+        <p id="modeInfoText">This mode is planned for a future update.</p>
+        <div class="mode-info-actions">
+          <button class="ghost-btn" id="modeInfoOkBtn">Got it</button>
+        </div>
+      </div>
+    </aside>
+
+    <aside class="settings-drawer" id="settingsDrawer" aria-hidden="true">
+      <div class="drawer-card">
+        <div class="drawer-head">
+          <h2>Settings</h2>
+          <button class="icon-btn" id="closeMenuBtn">×</button>
+        </div>
+
+        <label>
+          Draft Pool
+          <select id="poolSelect">
+            <option value="featured">Featured</option>
+            <option value="stars">Stars Only</option>
+            <option value="starters">Starters+</option>
+            <option value="everyone">Everyone</option>
+            <option value="deep">Deep Cuts</option>
+          </select>
+        </label>
+
+        <label>
+          Era Roll
+          <select id="eraSelect">
+            <option value="decades">60s to 20s</option>
+            <option value="current">Current Only</option>
+            <option value="all">Current + 60s to 20s</option>
+          </select>
+        </label>
+
+        <label>
+          Roster Size
+          <select id="rosterModeSelect">
+            <option value="five">5-Man Team</option>
+            <option value="six">6-Man Team</option>
+            <option value="full">Full Roster</option>
+          </select>
+        </label>
+
+        <label class="check-row">
+          <input type="checkbox" id="randomnessToggle" checked />
+          <span>Season randomness</span>
+        </label>
+
+        <p class="drawer-note">Classic, Franchise, Battle, Playoff, Dynasty, and GM Trade modes are playable. Historical modes use <code>src/full_players.js</code>; Current mode uses <code>src/current_rosters.js</code>.</p>
+      </div>
+    </aside>
+  </main>
+
+  <script src="src/data.js"></script>
+  <script src="src/full_players.js"></script>
+  <script src="src/current_rosters.js"></script>
+  <script src="src/app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => navigator.serviceWorker.register("service-worker.js").catch(() => {}));
+    }
+  </script>
+</body>
+</html>
